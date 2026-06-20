@@ -1,55 +1,55 @@
 # CLAUDE.md
 
-> 这个文件是给你（Claude Code）看的，帮你快速搞清楚这个项目是干嘛的、怎么跑、有哪些坑要注意。
+> AI Agent 指令文件。执行任务前请优先查阅 `.claude/skills/` 下各 Skill 定义，获取完整的交互流程与业务规则。
 
-## 这是个什么项目
+## 项目概述
 
-东风乘用车 EPS 价格合规点检工具。说白了就是用 Python（pandas）把几张 Excel 表交叉比对，找出合规问题，然后把结果导出 Excel 或者发到飞书上。
+东风奕派 EPS（电子采购系统）价格合规检查项目。基于 pandas 对 `eps3_spare.xlsx`（备件输机）与 `eps3_mass.xlsx`（量产件输机）进行交叉比对，覆盖联动标识、价格差异、物流方式、商折识别、工程设变跟踪、工装分摊剥离六类检查。
 
-核心输入是两张超大的 Excel：
-- `eps3_spare.xlsx`（备件输机价格，约 15 万行）
-- `eps3_mass.xlsx`（量产件输机价格，约 17 万行）
+分析结果可导出 Excel、追加至飞书在线表格、发送飞书群消息提醒，或借助 PowerPoint MCP 生成汇报幻灯片。Power BI MCP 可辅助数据建模与可视化。
 
-## 都有哪些检查
+核心数据源：
+- `data/eps3_spare.xlsx` — 备件输机价格（约 15.7 万行，40 列）
+- `data/eps3_mass.xlsx` — 量产件输机价格（约 17.3 万行，30 列）
 
-一共 8 个 notebook，6 大类检查，分成三组：
+## 检查能力总览（8 个 Notebook，6 大类）
 
-### 日常合规点检（4 个 — 每次跑都要用的）
+### 一、日常合规点检（4 个）
 
-| # | 干嘛的 | Notebook | 数据来源 | 结果去哪 | 要不要发飞书 |
-|---|--------|----------|----------|----------|------------|
-| 1 | 94 项联动标识检查 | `94项需改为联动标识检查.ipynb` | spare + 不联动清单 | `联动标识检查结果/` | 不用 |
-| 2 | 160 项量产件跟踪 | `160项量产件检查跟踪_mass.ipynb` | mass + 不联动清单 | `联动标识检查结果/` | 不用 |
-| 3 | 备件输机未联动 | `备件输机(应联动)_未联动检查.ipynb` | spare | `备件输机未联动清单/` | 飞书表格 |
-| 4 | 价格通知书商折 | `mass_price_identify_business_discount.ipynb` | mass | `价格通知书_需商折/` | 飞书表格 |
+| # | 检查项 | Notebook | 输入 | 输出 | 飞书 |
+|---|--------|----------|------|------|------|
+| 1 | 94 项联动标识检查 | `94项需改为联动标识检查.ipynb` | spare + 不联动清单 | `联动标识检查结果/` | — |
+| 2 | 160 项量产件跟踪 | `160项量产件检查跟踪_mass.ipynb` | mass + 不联动清单 | `联动标识检查结果/` | — |
+| 3 | 备件输机未联动 | `备件输机(应联动)_未联动检查.ipynb` | spare | `备件输机未联动清单/` | 在线表格追加 |
+| 4 | 价格通知书商折识别 | `mass_price_identify_business_discount.ipynb` | mass | `价格通知书_需商折/` | 在线表格追加 |
 
-### 供应链事件跟踪（2 个 — 有设变/工装到期时才跑）
+### 二、供应链事件跟踪（2 个 — MRP 收货驱动）
 
-| # | 干嘛的 | Notebook | 数据来源 | 结果去哪 | 发飞书 |
-|---|--------|----------|----------|----------|--------|
-| 5 | 工程设变价格跟踪 | `engineering_change_price_track.ipynb` | EBOM表 + MRP收货 + mass | `工程设变价格跟踪/` | 群消息 |
-| 6 | 工装到期剥离 | `tooling_amortization_expiry.ipynb` | 工装台账 + MRP收货 + mass | `专用工装到期剥离/` | 群消息 |
+| # | 检查项 | Notebook | 输入 | 输出 | 飞书 |
+|---|--------|----------|------|------|------|
+| 5 | 工程设变价格跟踪 | `engineering_change_price_track.ipynb` | EBOM + MRP + mass | `工程设变价格跟踪/` | 群消息通知 |
+| 6 | 专用工装到期剥离 | `tooling_amortization_expiry.ipynb` | 工装台账 + MRP + mass | `专用工装到期剥离/` | 群消息通知 |
 
-### 需要人工交互的（2 个 — 别用 nbconvert 跑，会卡住）
+### 三、交互式执行（2 个 — 不可 nbconvert 批量运行）
 
-| # | 干嘛的 | Notebook | 怎么跑 |
-|---|--------|----------|--------|
-| 7 | 物流方式检查 | `mass_logistic_different.ipynb` | 在 VSCode 里逐 cell 跑（里面有个 `input()`） |
-| 8 | 备件量产件价格差异 | `mass_spare_difference.ipynb` | 同上，也有 `input()` |
+| # | 检查项 | Notebook | 说明 |
+|---|--------|----------|------|
+| 7 | 物流方式检查 | `mass_logistic_different.ipynb` | 含 `input()`，须在 VSCode 中逐 cell 执行 |
+| 8 | 备件量产件价格差异 | `mass_spare_difference.ipynb` | 含 `input()`，须在 VSCode 中逐 cell 执行 |
 
-## 目录长这样
+## 目录结构
 
 ```
 compliance_report/
-├── CLAUDE.md                # 就是本文件
-├── README.md                # 给人看的文档
+├── CLAUDE.md                     # 本文件
+├── README.md                     # 面向用户的项目文档
 ├── .gitignore
 ├── .claude/
-│   ├── .mcp.json            # MCP：ppt-mcp 和 powerbi
-│   └── skills/              # 8 个 skill 定义，比 notebook 优先级高
-├── data/                    # 所有输入 Excel（只读，别改）
-├── notebooks/               # 8 个分析 notebook
-├── output/                  # 所有输出结果
+│   ├── .mcp.json                 # MCP 服务器配置
+│   └── skills/                   # 8 个 Skill 定义（优先于 notebook 实现）
+├── data/                         # 只读输入（7 个 Excel）
+├── notebooks/                    # 8 个分析 Notebook
+├── output/                       # 输出结果（8 个子目录）
 │   ├── 联动标识检查结果/
 │   ├── 价格通知书_需商折/
 │   ├── 备件输机(应联动)未联动清单/
@@ -57,19 +57,19 @@ compliance_report/
 │   ├── 物流方式不一致/
 │   ├── 工程设变价格跟踪/
 │   └── 专用工装到期剥离/
-└── reports/                 # PPT 双周报
+└── reports/                      # PPT 双周报
 ```
 
-## 用户可以用斜杠命令调用的（4 个）
+## Invocable 命令（4 个）
 
-| 命令 | 你跟用户的交互流程 |
-|------|------------------|
-| `/备件输机(应联动)未联动检查` | 问日期区间 → 跑 Python → 报结果 → 问要不要追加飞书表格 |
+| 命令 | 交互流程 |
+|------|---------|
+| `/备件输机(应联动)未联动检查` | 询问日期区间 → Python 执行 → 报告结果 → 询问是否追加至飞书在线表格 |
 | `/价格通知书_需商折` | 同上 |
-| `/工程设变价格跟踪` | 问日期区间 → 跑 Python → 报结果 → 问要不要发飞书群消息 |
-| `/专用工装到期剥离` | **不用问日期**，全量扫描 → 跑 Python → 报结果 → 问要不要发飞书群消息 |
+| `/工程设变价格跟踪` | 询问日期区间 → Python 执行 → 报告结果 → 询问是否发送飞书群消息 |
+| `/专用工装到期剥离` | 全量扫描（无需日期参数）→ Python 执行 → 报告结果 → 询问是否发送飞书群消息 |
 
-## 哪些可以 nbconvert 批量跑（6 个）
+## nbconvert 批量执行（6 个）
 
 ```bash
 jupyter nbconvert --to notebook --execute --inplace notebooks/94项需改为联动标识检查.ipynb
@@ -80,23 +80,25 @@ jupyter nbconvert --to notebook --execute --inplace notebooks/engineering_change
 jupyter nbconvert --to notebook --execute --inplace notebooks/tooling_amortization_expiry.ipynb
 ```
 
-> ⚠️ `mass_logistic_different.ipynb` 和 `mass_spare_difference.ipynb` 里面有 `input()`，nbconvert 跑不了，必须在 VSCode 里手动逐 cell 执行。
+> ⚠️ `mass_logistic_different.ipynb` 和 `mass_spare_difference.ipynb` 含 `input()` 交互逻辑，nbconvert 不支持，必须在 VSCode 中逐 cell 运行。
 
-## 所有 notebook 的共通处理逻辑
+## 通用数据处理范式
 
-1. **拼 key**：`零件号_供应商编码`，这是贯穿所有分析的联合主键
-2. **筛状态**：备件表取 `["已审批", "审批中"]`，量产件表取 `["已发布", "已确认", "已审批"]`
-3. **洗日期**：日期列取前 10 位去掉时间戳；跨年的记录把失效日调到生效年 12 月 31 日
-4. **去重**：按 key 分组，失效日降序 → 创建时间降序，每组只取第一条（等于取最新有效的）
-5. **左连接**：key1（待查清单）LEFT JOIN key2（价格表），比对裸价/联动状态
-6. **导出**：路径格式 `../output/<子目录>/<文件名>_YYYYMMDD.xlsx`
+所有 Notebook 遵循同一套模式：
 
-> 注意：notebook 的工作目录是 `notebooks/`，所以读文件用 `../data/`，写文件用 `../output/`。
+1. **构造联合键**：`零件号_供应商编码`，贯穿全部分析的匹配主键
+2. **状态筛选**：备件表 → `["已审批", "审批中"]`；量产件表 → `["已发布", "已确认", "已审批"]`
+3. **日期清洗**：取日期列前 10 字符去掉时间戳；若生效/失效日期跨年，将失效日调整为生效年 12 月 31 日
+4. **分组去重**：按 key 分组，失效日降序 → 创建时间降序，每组取第一条（即最新有效记录）
+5. **左连接比对**：key1（待查清单）LEFT JOIN key2（价格表），比较裸价或提取状态字段
+6. **导出 Excel**：路径格式 `../output/<子目录>/<文件名>_YYYYMMDD.xlsx`
 
-## 铁律（必须遵守）
+> Notebook 工作目录为 `notebooks/`，读取文件使用 `../data/`，写入文件使用 `../output/`。
 
-- 🚫 **不准**生成额外的 `.py` 脚本或 `.txt` 中间文件
-- 🚫 **不准**用 nbconvert 跑那两个有 `input()` 的 notebook
-- 🚫 **不准**修改交互式 notebook 里的 `input()` 核心逻辑
-- 📌 skill 定义文件（`.claude/skills/*.md`）的优先级比 notebook 实现高，以 skill 为准
-- 📌 所有飞书操作（不管是追加表格还是发群消息）**必须先问用户**，同意了才能动手
+## 约束
+
+- 禁止生成额外的 `.py` 脚本或 `.txt` 中间文件
+- 禁止对含 `input()` 的交互式 notebook 使用 nbconvert 批量执行
+- 禁止修改交互式 notebook 中的 `input()` 核心逻辑
+- `.claude/skills/*.md` 的优先级高于 notebook 实现，执行时以 skill 定义为准
+- 所有飞书操作（表格追加、群消息发送）必须征得用户明确同意后方可执行
