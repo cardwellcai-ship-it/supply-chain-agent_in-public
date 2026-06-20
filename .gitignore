@@ -1,0 +1,21 @@
+# Input data — tracked in version control
+data/EBOM_设变版本表.xlsx
+data/MRP_收货记录表.xlsx
+data/定点会_工装分摊台账.xlsx
+
+# Output results — dynamically generated, not in repo
+output/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
