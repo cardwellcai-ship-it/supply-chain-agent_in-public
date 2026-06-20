@@ -58,7 +58,7 @@ compliance_report/
 │   └── skills/                   # 8 个 Skill 定义
 ├── data/                         # 输入数据（7 个 Excel，只读）
 ├── notebooks/                    # 分析 Notebook（8 个 .ipynb）
-├── output/                       # 运行输出（8 个子目录）
+├── output/                       # 运行输出（7 个业务子目录）
 └── reports/                      # 双周报 PPT
 ```
 
@@ -111,6 +111,6 @@ jupyter nbconvert --to notebook --execute --inplace notebooks/tooling_amortizati
 ## 项目约束
 
 - 不生成额外的 `.py` 脚本或 `.txt` 中间文件
-- 输入数据统一存放于 `data/`，输出结果统一存放于 `output/`，汇报材料存放于 `reports/`
+- 输入数据统一存放于 `data/`，输出结果统一存放于 `output/`
 - `.claude/skills/*.md` 为各检查项的权威定义，执行时以此为准
-- 所有飞书写操作必须经用户确认后方可执行
+- 所有飞书信操作必须经用户确认后方可执行
