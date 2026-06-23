@@ -1,7 +1,7 @@
 # 供应链数据分析Agent
 ## 版本说明：public版本，数据源可能删减、业务流脱敏
 
-通过交叉比对备件与量产件输机价格数据，自动识别联动标识异常、价格差异、物流方式偏差、商折遗漏、工程设变后价格未更新、工装分摊到期未剥离等问题。可导出 Excel、追加至飞书在线资源、发送飞书群消息，并支持借助 PowerPoint MCP 生成汇报幻灯片report，以及Power bi MCP 数据建模与可视化。
+通过交叉比对备件与量产件输机价格数据，自动识别联动标识异常、价格差异、物流方式偏差、商折遗漏、工程设变后价格未更新、工装分摊到期未剥离等问题。可直接导出分析结果，借助飞书CLI联动飞书在线资源(多维表格，飞书任务等)、发送飞书群消息，并支持借助 PowerPoint MCP 生成汇报幻灯片report，以及Power bi MCP 数据建模与可视化。
 
 ## 六大检查能力
 
@@ -106,7 +106,7 @@ jupyter nbconvert --to notebook --execute --inplace notebooks/tooling_amortizati
 
 - Python 3.10+，pandas，openpyxl
 - Jupyter Notebook / nbconvert
-- lark-cli（飞书操作，可选）
+- lark-cli（飞书操作）
 - Claude Code MCP：ppt-mcp，powerbi-microsoft
 
 ## 项目约束
