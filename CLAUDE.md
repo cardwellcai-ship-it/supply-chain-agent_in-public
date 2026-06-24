@@ -4,7 +4,7 @@
 
 ## 项目概述
 
-东风奕派 EPS（电子采购系统）价格合规检查工具。基于 pandas 对 `eps3_spare.xlsx`（备件输机）与 `eps3_mass.xlsx`（量产件输机）进行交叉比对，覆盖联动标识、价格差异、物流方式、商折识别、工程设变跟踪、工装分摊剥离六类检查。
+基于 python-pandas&numpy 对 `eps3_spare.xlsx`（备件输机）与 `eps3_mass.xlsx`（量产件输机）进行交叉比对，覆盖联动标识、价格差异、物流方式、商折识别、工程设变跟踪、工装分摊剥离六类检查。
 
 分析结果可导出 Excel、追加至飞书在线表格、发送飞书群消息，或借助 PowerPoint MCP 生成汇报幻灯片。Power BI MCP 可辅助数据建模与可视化。
 
@@ -59,7 +59,7 @@ compliance_report/
 │   ├── 物流方式不一致/
 │   ├── 工程设变价格跟踪/
 │   └── 专用工装到期剥离/
-└── reports/                      # PPT 双周报
+└── reports/                      # PPT 双周报 # power bi dashboard
 ```
 
 ## Invocable 命令（4 个）
