@@ -89,9 +89,9 @@ jupyter nbconvert --to notebook --execute --inplace notebooks/tooling_amortizati
 # notebooks/mass_spare_difference.ipynb
 ```
 
-### 方式三：Claude Code Skill（AI 辅助）
+### 方式三：Claude Code Skill（AI Agent自然语言启动）
 ```bash
-/备件输机(应联动)未联动检查     # 询问日期 → 分析 → 飞书表格追加
+/备件输机(应联动)未联动检查       # 询问日期 → 分析 → 飞书表格追加
 /价格通知书_需商折               # 询问日期 → 分析 → 飞书表格追加
 /工程设变价格跟踪                # 询问日期 → 分析 → 飞书群消息
 /专用工装到期剥离                # 全量扫描 → 分析 → 飞书群消息
