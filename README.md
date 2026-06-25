@@ -6,6 +6,7 @@ IDE：VScode
 
 Vibe codeing tool：claude code，codex
 
+LLM:Deepseek v4-flash/pro
 
 ## 六大业务痛点
 
