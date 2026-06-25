@@ -4,7 +4,7 @@
 
 IDE：VScode
 
-Vibe codeing tool：claude code，codex
+Vibe coding tool：claude code，codex
 
 LLM:Deepseek v4-flash/pro
 
