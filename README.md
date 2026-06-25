@@ -27,7 +27,7 @@
 ## 数据流
 
 ```
-输入层 (data/)                 分析层 (notebooks/)        输出层 (output/)            信息输出 (data/) 
+输入层 (data/)                 分析层 (notebooks/)        输出层 (output/)            信息输出 (notice/) 
 ───────────                    ────────────────          ────────────
 
 eps3_spare      ──────┐
